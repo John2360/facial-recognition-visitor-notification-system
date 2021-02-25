@@ -122,7 +122,7 @@ class FacialRecognition:
         for root, dirs, files in os.walk("./known_pictures/"):
             for filename in files:
                 filenames.append(filename)
-        filenames.remove(".DS_Store")
+        #filenames.remove(".DS_Store")
 
         encoding_list = []
         name_list = []
