@@ -8,6 +8,7 @@ app = flask.Flask(__name__, template_folder='')
 app.config["DEBUG"] = False
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+db = TinyDB('log_list.json')
 
 @app.route('/', methods=['GET'])
 @cross_origin()
@@ -18,14 +19,12 @@ def home():
 @app.route('/api/v1/log/all', methods=['GET'])
 @cross_origin()
 def api_log_all():
-    db = TinyDB('../log_list.json')
     table = db.table('history')
     return jsonify(table.all())
 
 @app.route('/api/v1/log/last', methods=['GET'])
 @cross_origin()
 def api_log_last():
-    db = TinyDB('../log_list.json')
     table = db.table('history')
     ordered = sorted(table.all(), key=lambda k: k['timestamp'])
     return jsonify(ordered[-1])
@@ -33,7 +32,6 @@ def api_log_last():
 @app.route('/api/v1/log', methods=['GET'])
 @cross_origin()
 def api_log_filter():
-    db = TinyDB('../log_list.json')
     table = db.table('history')
     # Check if an ID was provided as part of the URL.
     # If ID is provided, assign it to a variable.
